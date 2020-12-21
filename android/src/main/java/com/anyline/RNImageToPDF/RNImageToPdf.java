@@ -69,27 +69,35 @@ public class RNImageToPdf extends ReactContextBaseJavaModule {
                 // get image
                 Bitmap bmp = getImageFromFile(images.getString(idx));
 
-                // resize
-                bmp = resize(bmp, maxWidth, maxHeight);
-
-                // compress
-                bmp = compress(bmp, quality);
+//                // compress
+//                bmp = compress(bmp, quality);
 
                 PageInfo pageInfo = new Builder(bmp.getWidth(), bmp.getHeight(), 1).create();
+                
+                // resize
+                bmp = resize(bmp, 250, 250);
 
                 // start a page
                 Page page = document.startPage(pageInfo);
 
                 // add image to page
                 Canvas canvas = page.getCanvas();
-                canvas.drawBitmap(bmp, 0, 0, null);
 
+                canvas.drawColor(Color.WHITE);
+                canvas.drawARGB(0xFF, 0xFF, 0xFF, 0xFF);
+                int centreX =(int)((canvas.getWidth()  - bmp.getWidth()) /2);
+                int centreY =(int) ((canvas.getHeight() - bmp.getHeight()) /2);
+                canvas.drawBitmap(bmp,centreX , centreY, null);
                 document.finishPage(page);
             }
 
             // write the document content
             File targetPath = reactContext.getExternalFilesDir(null);
-            File filePath = new File(targetPath, documentName);
+            
+            String downloadPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath();
+            File filePath = new File(downloadPath, documentName);
+
+
             document.writeTo(new FileOutputStream(filePath));
             log.info(format("Wrote %,d bytes to %s", filePath.length(), filePath.getPath()));
             WritableMap resultMap = Arguments.createMap();
