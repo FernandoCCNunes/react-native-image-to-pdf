@@ -7,11 +7,13 @@ package com.anyline.RNImageToPDF;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.pdf.PdfDocument;
 import android.graphics.pdf.PdfDocument.Page;
 import android.graphics.pdf.PdfDocument.PageInfo;
 import android.graphics.pdf.PdfDocument.PageInfo.Builder;
 import android.net.Uri;
+import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 
 import com.facebook.react.bridge.Arguments;
